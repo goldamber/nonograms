@@ -1,0 +1,172 @@
+﻿<Window x:Class="Task_11_0.AddCross"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task_11_0"
+        mc:Ignorable="d"
+        Title="AddCross" Height="500" Width="500" Icon="Icons\WolfRaven.png">
+    <Window.Resources>
+        <Style x:Key="WinDrawBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Blue" />
+            <Setter Property="Background" Value="WhiteSmoke" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Opacity" Value="0.5" />
+            <Setter Property="Height" Value="90" />
+            <Setter Property="Width" Value="190" />
+
+            <Style.Triggers>
+                <Trigger Property="Border.IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="WhiteSmoke" />
+                    <Setter Property="CornerRadius" Value="10" />
+                    <Setter Property="Background" Value="#FF2887D6" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" To="110" />
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" To="1" />
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" To="260" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Height" />
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Width" />
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="WinDrawText" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Width" Value="190" />
+            <Setter Property="Height" Value="90" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#FF2887D6" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+            <Style.Triggers>
+                <Trigger Property="Label.IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                    <Setter Property="Background" Value="#FF2887D6" />
+                    <Setter Property="FontStyle" Value="Italic" />
+                </Trigger>
+
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="FontSize" To="20" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetProperty="FontSize" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BtnAdd" TargetType="Button">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="Background" Value="LightBlue" />
+
+            <Setter Property ="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Name="controlLayout">
+                            <Ellipse Fill="{TemplateBinding Background}" Name="buttonSurface" />
+                            <Label Content="{TemplateBinding Content}" FontSize="31" FontWeight="Bold" HorizontalAlignment="Center" Foreground="WhiteSmoke" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property = "IsMouseOver" Value = "True">
+                                <Setter TargetName = "buttonSurface" Property = "Fill" Value = "Green"/>
+                            </Trigger>
+                            
+                            <Trigger Property = "IsEnabled" Value = "False">
+                                <Setter TargetName = "controlLayout" Property = "Opacity" Value = "0.4"/>
+                            </Trigger>
+
+                            <Trigger Property = "IsPressed" Value="True">
+                                <Setter TargetName="controlLayout" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Setter TargetName="controlLayout" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+    </Window.Resources>
+
+    <Grid>
+        <Grid Name="grStart">
+            <Border Grid.Row="1" Style="{DynamicResource WinDrawBorder}" MouseDown="Border_MouseDown">
+                <Label Style="{DynamicResource WinDrawText}">Picture</Label>
+            </Border>
+        </Grid>
+
+        <Grid Name="grPictureSet" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label FontSize="22" FontWeight="Bold">Size (H x W):</Label>
+                    <TextBox FontSize="22" MinWidth="50" Margin="5" Name="txtHeight" TextChanged="txtHeight_TextChanged" />
+                    <Label FontSize="22">x</Label>
+                    <TextBox FontSize="22" MinWidth="50" Margin="5"  Name="txtWidth" TextChanged="txtHeight_TextChanged" />
+                </StackPanel>
+
+                <Button Style="{StaticResource BtnAdd}" Name="btnNext" Click="btnNext_Click" IsEnabled="False">>></Button>
+            </StackPanel>
+        </Grid>
+
+        <ScrollViewer Name="grCrossGenerate" Visibility="Collapsed" >
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Name="grBody" />
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBox Name="txtName" MaxHeight="40" VerticalContentAlignment="Center" FontSize="20" Margin="10" MinWidth="100" TextChanged="txtName_TextChanged" />
+                    <ComboBox Name="cmbGroup" MaxHeight="40" VerticalContentAlignment="Center" FontSize="20" Margin="10" MinWidth="150">
+                        <ComboBoxItem>Nature</ComboBoxItem>
+                        <ComboBoxItem>Animals</ComboBoxItem>
+                        <ComboBoxItem IsSelected="True">Different</ComboBoxItem>
+                        <ComboBoxItem>Buildings</ComboBoxItem>
+                        <ComboBoxItem>Science</ComboBoxItem>
+                        <ComboBoxItem>People</ComboBoxItem>
+                    </ComboBox>
+                    <Button Margin="10" Style="{StaticResource BtnAdd}" Name="btnApply" Click="btnApply_Click" IsEnabled="False">Apply</Button>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>
